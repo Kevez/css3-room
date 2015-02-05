@@ -1,0 +1,61 @@
+html, body {height:100%;margin:0;overflow:hidden;}
+	
+#viewport {position:relative;float:left;width:100%;height:100%;background:#222;overflow:hidden;-webkit-perspective:700;}
+	
+#world {position:absolute;top:50%;left:50%;-webkit-transform-style:preserve-3d;
+		-webkit-transform:translate3d(0,0,-1875px) rotateX(-10deg) rotateY(315deg) rotateZ(0deg);
+		-webkit-transform-origin:50% 50% 0;
+	}
+	
+.boxcontainer {-webkit-transform-style:preserve-3d;-webkit-transform-origin:50% 50% 0;}
+	
+.plane {position:absolute;-webkit-transform-origin:0 0 0;/*-webkit-backface-visibility:hidden;*/}
+	
+	.plane p {
+		position:absolute;
+		bottom:0px;
+		left:15px;
+		-webkit-transform:scale(1,-1)	
+	}
+		
+	@-webkit-keyframes opendoor {
+		0%   { -webkit-transform: rotateY(90deg);  }
+		25%  { -webkit-transform: rotateY(110deg); }
+		50%  { -webkit-transform: rotateY(130deg); }
+		75%  { -webkit-transform: rotateY(110deg); }
+		100% { -webkit-transform: rotateY(90deg);  }
+	}
+	
+	.dooropen {
+		-webkit-transform:translate3d(721px, 290px, 438px) rotateX(180deg) rotateY(180deg) rotateZ(0deg) !important;
+	}
+	
+	.boxface4 {
+		-webkit-transform:scale(-1,-1);
+	}
+	
+	.plane video, .plane img {
+		-webkit-transform:scale(1,-1);
+		background:#000;	
+	}
+	
+	#move-right {
+		position:fixed;
+		bottom:10px;
+		right:10px;	
+		z-index:100;
+	}
+	
+	#rotate-left {
+		position:fixed;
+		bottom:10px;
+		right:50px;	
+		z-index:100;
+	}
+	
+	#rotate-right {
+		position:fixed;
+		bottom:10px;
+		right:10px;	
+		z-index:100;
+	}

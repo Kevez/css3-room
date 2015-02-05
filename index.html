@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Seriously CSS3</title>
+	<link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+	<button id="rotate-left"><-</button>
+	<button id="rotate-right">-></button>
+	<div id="viewport">
+		<div id="world">						
+			<!--tv-->
+			<div class="plane tv" style="width: 640px; height: 424px; background:#111; -webkit-transform: translate3d(-279px, 193px, 128px) rotateX(180deg) rotateY(90deg) rotateZ(0deg);border:3px solid rgb(66, 66, 66);">
+			</div>
+			
+		</div>
+	</div>
+	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script>
+	$(function(){
+		
+		$('.door').click(function(){
+			$(this).toggleClass('dooropen');
+		});
+		
+		$('.plug').click(function(){
+			alert("in");
+			$('.tv').html('<video src="deep.mp4" autoplay></video>');
+		});
+		
+	});
+	
+	(function() {
+
+		var world = $('#world');
+		var worldx = 0;
+		var worldy = 0;
+		var worldz = -1875;
+		var worldrx = -10;
+		var worldry = 315;
+		var worldrz = 0;
+		var worldleft = 50;
+		
+		World = {
+			currentPage: 0,
+			$el: $('#world'),
+		
+			init: function($el) {
+				this.$el = $el;
+				return this;
+			},
+			
+			createPlane: function(w,h,x,y,z, rx, ry, rz, bg, classname){
+				this.html = $('<div class="plane '+classname+'" style="width: '+w+'px; height: '+h+'px; background-image:'+bg+'; -webkit-transform: translate3d('+x+'px, '+y+'px, '+z+'px) rotateX('+rx+'deg) rotateY('+ry+'deg) rotateZ('+rz+'deg);"></div>').appendTo('#world');
+				return this;
+			},
+			
+			createBox: function(w,h,x,y,z){
+				initplanex = -700;
+				initplaney = 235;
+				initplanez = 628;
+							
+				boxhtml = '<div class="plane boxcontainer" style="-webkit-transform:translate3d('+x+'px,'+y+'px,'+z+'px)">' +
+						  '<div class="plane boxface1" style="width: '+w+'px; height: '+h+'px; background-image:-webkit-linear-gradient(left,#221111,#111111); -webkit-transform: translate3d('+initplanex+'px, '+initplaney+'px, '+initplanez+'px) rotateX(180deg) rotateY(-90deg) rotateZ(0deg);"></div>' +
+					      '<div class="plane boxface2" style="width: '+w+'px; height: '+h+'px; background-image:-webkit-linear-gradient(left,#221111,#111111); -webkit-transform: translate3d('+initplanex+'px, '+initplaney+'px, '+(initplanez-w)+'px) rotateX(180deg) rotateY(180deg) rotateZ(0deg);"></div>' +				   
+					      '<div class="plane boxface3" style="width: '+w+'px; height: '+h+'px; background-image:-webkit-linear-gradient(left,#221111,#111111); -webkit-transform: translate3d('+(initplanex-w)+'px, '+initplaney+'px, '+(initplanez-w)+'px) rotateX(180deg) rotateY(90deg) rotateZ(0deg);"></div>' +			
+					      '<div class="plane boxface4" style="width: '+w+'px; height: '+h+'px; background-image:-webkit-linear-gradient(left,#221111,#111111); -webkit-transform: translate3d('+initplanex+'px, '+initplaney+'px, '+initplanez+'px) rotateX(180deg) rotateY(180deg) rotateZ(0deg);"></div>' +
+					      '<div class="plane boxface5" style="width: '+w+'px; height: '+h+'px; background-image:-webkit-linear-gradient(left,#221111,#111111); -webkit-transform: translate3d('+initplanex+'px, '+initplaney+'px, '+initplanez+'px) rotateX(90deg) rotateY(0deg) rotateZ(180deg);"></div>' +
+					      '<div class="plane boxface6" style="width: '+w+'px; height: '+h+'px; background-image:-webkit-linear-gradient(left,#441111,#111111); -webkit-transform: translate3d('+initplanex+'px, '+(initplaney-w)+'px, '+initplanez+'px) rotateX(90deg) rotateY(0deg) rotateZ(180deg);"></div>' +
+					      '</div>';
+				
+				return $(boxhtml).appendTo('#world');
+			}
+		};
+		
+		
+		
+		$(document).keydown(function(evt){
+			
+			if(evt.which==87){
+				worldz += 12;
+			}
+			else if(evt.which==83){
+				worldz -= 12;
+			}
+			else if(evt.which==37){
+				worldry += 1;
+				worldx -= 2;
+			}
+			else if(evt.which==39){
+				worldry -= 1;
+				worldx += 2;
+			}
+			else if(evt.which==38){
+				worldrx -= 5;
+				
+			}
+			else if(evt.which==40){
+				if(worldrx<0){
+					worldrx += 5;
+				}
+			}
+			
+			world.css('-webkit-transform','translate3d('+worldx+'px,0,'+worldz+'px) rotateX('+worldrx+'deg) rotateY('+worldry+'deg) rotateZ(0deg)');
+		});
+		
+	})(jQuery);
+	
+	var world = Object.create(World).init();
+	
+	world.createPlane(1000, 1000, -282, 290, 53, 90, 0, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaa'); //floor
+	world.createPlane(800, 600, -282, 290, 53, 180, 90, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaa'); //left wall
+	world.createPlane(1000, 600, -282, 290, 53, 180, 0, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaa'); //right wall
+	world.createPlane(1000, 1000, -1282, 290, 53, 90, 0, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaa'); //2nd floor
+	world.createPlane(1000, 1000, -1282, 290, -946, 90, 0, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaa'); //3rd floor
+	world.createPlane(1000, 1000, -282, 290, -946, 90, 0, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaa'); //3rd floor
+	world.createPlane(1000, 600, -282, 290, 53, 180, -90, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaab'); //right wall
+	world.createPlane(1000, 600, -282, 290, 53, 180, -180, 0, '-webkit-linear-gradient(left,rgb(99, 99, 99),rgb(226, 226, 226))', 'aaabb'); //right wall
+	world.createPlane(300, 600, 721, 290, 438, 180, 90, 0, '-webkit-linear-gradient(left,rgb(177, 62, 26),rgb(133, 15, 15))', 'door'); //right wall
+	world.createPlane(35, 35, -279, 235, 429, 180, 90, 0, '-webkit-linear-gradient(left,#fff,#fff)', 'plug'); //right wall
+	world.createPlane(7337, 1994, -8619, 287, -944, 90, 0, 0, '-webkit-linear-gradient(left,rgb(101, 245, 101),rgb(52, 126, 29))', 'path'); //path
+	world.createPlane(1000, 600, -1284, 290, 1051, 180, -90, 0, '-webkit-linear-gradient(left,rgba(99, 99, 99, 0.5),rgba(226, 226, 226, 0.5))', 'glass-window'); //right wall
+	
+	world.createBox(400,400,227,51,-581);
+	
+	
+	world.createBox(800,800,-6388,51,-581);
+	
+</script>
+</body>
+</html>
